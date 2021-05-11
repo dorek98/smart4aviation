@@ -29,22 +29,22 @@ public class FlightQueryHandlerImpl implements FlightQueryHandler {
         try {
             Flight flight = flightRepository.findByFlightNumberAndDepartureDate(flightNumber, date).orElseThrow(EntityNotFoundException::new);
             int baggageWeightInKg = flight.getBaggages().stream()
-                    .filter(baggage -> baggage.getWeightUnit() == WeightUnit.kg)
+                    .filter(baggage -> baggage.getWeightUnit() == WeightUnit.KG)
                     .mapToInt(Baggage::getWeight)
                     .sum();
 
             baggageWeightInKg += flight.getBaggages().stream()
-                    .filter(baggage -> baggage.getWeightUnit() == WeightUnit.lb)
+                    .filter(baggage -> baggage.getWeightUnit() == WeightUnit.LB)
                     .mapToInt(Baggage::getWeight)
                     .sum() * LBTOKG;
 
             int cargoWeightInKg = flight.getCargos().stream()
-                    .filter(cargo -> cargo.getWeightUnit() == WeightUnit.kg)
+                    .filter(cargo -> cargo.getWeightUnit() == WeightUnit.KG)
                     .mapToInt(Cargo::getWeight)
                     .sum();
 
             cargoWeightInKg += flight.getCargos().stream()
-                    .filter(cargo -> cargo.getWeightUnit() == WeightUnit.lb)
+                    .filter(cargo -> cargo.getWeightUnit() == WeightUnit.LB)
                     .mapToInt(Cargo::getWeight)
                     .sum() * LBTOKG;
 
