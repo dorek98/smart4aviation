@@ -17,9 +17,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 @Transactional(readOnly = true)
-public class FlightQueryHandlerImpl {
+public class FlightQueryHandlerImpl implements FlightQueryHandler {
     private final FlightRepository flightRepository;
 
+    @Override
     public ResponseEntity<FlightDetails> getFlight(int flightNumber, String date) {
         List<Flight> flightList = flightRepository.findAll().stream()
                 .filter(f -> f.getFlightNumber() == flightNumber && f.getDepartureDate().equals(date))
@@ -42,6 +43,7 @@ public class FlightQueryHandlerImpl {
         return ResponseEntity.ok(new FlightDetails(flightNumber, cargoWeight, baggageWeight, totalWeight));
     }
 
+    @Override
     public ResponseEntity<AirportDetails> getAirport(String airportIATACode, String date) {
         List<Flight> flightList = flightRepository.findAll();
 
@@ -74,7 +76,8 @@ public class FlightQueryHandlerImpl {
                         .sum();
             }
         }
-        return ResponseEntity.ok(new AirportDetails(numberOfDepartingFlights, numberOfArrivingFlights, totalNumberOfBaggageArriving, totalNumberOfBaggageDeparting));
+        AirportDetails airportDetails = new AirportDetails(numberOfDepartingFlights, numberOfArrivingFlights, totalNumberOfBaggageArriving, totalNumberOfBaggageDeparting);
+        return ResponseEntity.ok(airportDetails);
     }
 
 }

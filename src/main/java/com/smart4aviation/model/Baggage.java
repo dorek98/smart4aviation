@@ -1,6 +1,5 @@
 package com.smart4aviation.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

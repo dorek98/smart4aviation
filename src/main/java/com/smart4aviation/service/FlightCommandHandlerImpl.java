@@ -1,7 +1,5 @@
 package com.smart4aviation.service;
 
-import com.smart4aviation.dto.BaggageRegistration;
-import com.smart4aviation.dto.CargoRegistration;
 import com.smart4aviation.dto.FlightCargoRegistration;
 import com.smart4aviation.dto.FlightRegistration;
 import com.smart4aviation.model.Baggage;
@@ -35,13 +33,14 @@ public class FlightCommandHandlerImpl implements FlightCommandHandler {
     @Override
     public void save(FlightCargoRegistration flightDTO) {
         Flight flight = flightRepository.getOne(flightDTO.getFlightId() + 1);
-        List<BaggageRegistration> baggageRegistrationList = flightDTO.getBaggage();
-        List<Baggage> baggageList = baggageRegistrationList.stream()
+
+        List<Baggage> baggageList = flightDTO.getBaggage().stream()
                 .map(x -> new Baggage(x.getWeight(), x.getWeightUnit(), x.getPieces(), flight))
                 .collect(Collectors.toList());
         baggageRespository.saveAll(baggageList);
-        List<CargoRegistration> cargoRegistrationList = flightDTO.getCargo();
-        List<Cargo> cargoList = cargoRegistrationList.stream()
+
+
+        List<Cargo> cargoList = flightDTO.getCargo().stream()
                 .map(x -> new Cargo(x.getWeight(), x.getWeightUnit(), x.getPieces(), flight))
                 .collect(Collectors.toList());
         cargoRepository.saveAll(cargoList);
