@@ -1,4 +1,4 @@
-package com.smart4aviation.dto;
+package com.smart4aviation.dto.airport;
 
 import lombok.Value;
 

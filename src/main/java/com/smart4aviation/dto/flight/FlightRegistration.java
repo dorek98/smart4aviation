@@ -1,6 +1,8 @@
-package com.smart4aviation.dto;
+package com.smart4aviation.dto.flight;
 
 import lombok.Value;
+
+import java.time.OffsetDateTime;
 
 @Value
 public class FlightRegistration {
@@ -9,5 +11,5 @@ public class FlightRegistration {
     int flightNumber;
     String departureAirportIATACode;
     String arrivalAirportIATACode;
-    String departureDate;
+    OffsetDateTime departureDate;
 }

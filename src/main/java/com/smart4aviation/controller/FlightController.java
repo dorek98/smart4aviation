@@ -1,16 +1,18 @@
 package com.smart4aviation.controller;
 
-import com.smart4aviation.dto.AirportDetails;
-import com.smart4aviation.dto.FlightCargoRegistration;
-import com.smart4aviation.dto.FlightDetails;
-import com.smart4aviation.dto.FlightRegistration;
+import com.smart4aviation.dto.airport.AirportDetails;
+import com.smart4aviation.dto.cargo.FlightCargoRegistration;
+import com.smart4aviation.dto.flight.FlightDetails;
+import com.smart4aviation.dto.flight.FlightRegistration;
 import com.smart4aviation.service.FlightCommandHandlerImpl;
 import com.smart4aviation.service.FlightQueryHandlerImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -21,25 +23,24 @@ public class FlightController {
     private final FlightQueryHandlerImpl queryHandler;
     private final FlightCommandHandlerImpl commandHandler;
 
-    @GetMapping("/flights/{flightNumber}/{date}")
-    public ResponseEntity<FlightDetails> getFlightDetails(@PathVariable("flightNumber") int flightNumber, @PathVariable("date") String date) {
+    @GetMapping("/flights")
+    public ResponseEntity<FlightDetails> getFlightDetails(@RequestParam("flightNumber") int flightNumber, @RequestParam("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
         return queryHandler.getFlight(flightNumber, date);
     }
 
-    @GetMapping("/airports/{airportIATACode}/{date}")
-    public ResponseEntity<AirportDetails> getAirportDetails(@PathVariable("airportIATACode") String airportIATACode, @PathVariable("date") String date) {
+    @GetMapping("/airports")
+    @ResponseBody
+    public ResponseEntity<AirportDetails> getAirportDetails(@RequestParam("airportIATACode") String airportIATACode, @RequestParam("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
         return queryHandler.getAirport(airportIATACode, date);
     }
 
     @PostMapping("/flight")
-    @ResponseBody
     public ResponseEntity<HttpStatus> createFlight(final @RequestBody List<FlightRegistration> flightRegistrationList) {
         flightRegistrationList.forEach(commandHandler::save);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/cargo")
-    @ResponseBody
     public ResponseEntity<HttpStatus> createCargo(final @RequestBody List<FlightCargoRegistration> flightCargoRegistrationList) {
         flightCargoRegistrationList.forEach(commandHandler::save);
         return new ResponseEntity<>(HttpStatus.CREATED);
