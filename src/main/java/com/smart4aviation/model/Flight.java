@@ -29,7 +29,8 @@ public class Flight {
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Cargo> cargos;
 
-    public Flight(long flightId, int flightNumber, String departureAirportIATACode, String arrivalAirportIATACode, OffsetDateTime departureDate) {
+    public Flight(long flightId, int flightNumber, String departureAirportIATACode,
+                  String arrivalAirportIATACode, OffsetDateTime departureDate) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.departureAirportIATACode = departureAirportIATACode;

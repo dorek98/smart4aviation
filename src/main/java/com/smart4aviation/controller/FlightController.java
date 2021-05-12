@@ -24,13 +24,15 @@ public class FlightController {
     private final FlightCommandHandlerImpl commandHandler;
 
     @GetMapping("/flights")
-    public ResponseEntity<FlightDetails> getFlightDetails(@RequestParam("flightNumber") int flightNumber, @RequestParam("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
+    public ResponseEntity<FlightDetails> getFlightDetails(@RequestParam("flightNumber") int flightNumber,
+                                                          @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
         return queryHandler.getFlight(flightNumber, date);
     }
 
     @GetMapping("/airports")
     @ResponseBody
-    public ResponseEntity<AirportDetails> getAirportDetails(@RequestParam("airportIATACode") String airportIATACode, @RequestParam("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
+    public ResponseEntity<AirportDetails> getAirportDetails(@RequestParam("airportIATACode") String airportIATACode,
+                                                            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
         return queryHandler.getAirport(airportIATACode, date);
     }
 

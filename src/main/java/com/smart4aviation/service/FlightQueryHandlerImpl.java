@@ -27,7 +27,9 @@ public class FlightQueryHandlerImpl implements FlightQueryHandler {
         final double LBTOKG = 0.45;
         final double KGTOLB = 2.2;
         try {
-            Flight flight = flightRepository.findByFlightNumberAndDepartureDate(flightNumber, date).orElseThrow(EntityNotFoundException::new);
+            Flight flight = flightRepository.findByFlightNumberAndDepartureDate(flightNumber, date)
+                    .orElseThrow(EntityNotFoundException::new);
+
             int baggageWeightInKg = flight.getBaggages().stream()
                     .filter(baggage -> baggage.getWeightUnit() == WeightUnit.KG)
                     .mapToInt(Baggage::getWeight)
@@ -53,7 +55,8 @@ public class FlightQueryHandlerImpl implements FlightQueryHandler {
 
             int totalWeightInKg = baggageWeightInKg + cargoWeightInKg;
             int totalWeightInLb = baggageWeightInLb + cargoWeightInLb;
-            FlightDetails flightDetails = new FlightDetails(flightNumber, cargoWeightInKg, baggageWeightInKg, totalWeightInKg, cargoWeightInLb, baggageWeightInLb, totalWeightInLb);
+            FlightDetails flightDetails = new FlightDetails(flightNumber, cargoWeightInKg, baggageWeightInKg,
+                    totalWeightInKg, cargoWeightInLb, baggageWeightInLb, totalWeightInLb);
             return ResponseEntity.ok(flightDetails);
         } catch (EntityNotFoundException exception) {
             return ResponseEntity.notFound().build();
@@ -87,7 +90,8 @@ public class FlightQueryHandlerImpl implements FlightQueryHandler {
                         .sum();
             }
         }
-        AirportDetails airportDetails = new AirportDetails(numberOfDepartingFlights, numberOfArrivingFlights, totalNumberOfBaggageArriving, totalNumberOfBaggageDeparting);
+        AirportDetails airportDetails = new AirportDetails(numberOfDepartingFlights, numberOfArrivingFlights,
+                totalNumberOfBaggageArriving, totalNumberOfBaggageDeparting);
         return ResponseEntity.ok(airportDetails);
     }
 

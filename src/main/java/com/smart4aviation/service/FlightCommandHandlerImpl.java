@@ -26,7 +26,8 @@ public class FlightCommandHandlerImpl implements FlightCommandHandler {
 
     @Override
     public void save(FlightRegistration flightDTO) {
-        Flight flight = new Flight(flightDTO.getFlightId() + 1, flightDTO.getFlightNumber(), flightDTO.getDepartureAirportIATACode(), flightDTO.getArrivalAirportIATACode(), flightDTO.getDepartureDate());
+        Flight flight = new Flight(flightDTO.getFlightId() + 1, flightDTO.getFlightNumber(),
+                flightDTO.getDepartureAirportIATACode(), flightDTO.getArrivalAirportIATACode(), flightDTO.getDepartureDate());
         flightRepository.save(flight);
     }
 
